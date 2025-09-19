@@ -1,0 +1,74 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.welcome h1 {
+  color: #333;
+  margin: 0;
+}
+
+.welcome p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.welcome-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e3e6ea;
+  min-height: 160px;
+  min-width: 250px;
+  flex: 1;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0,123,204,0.15);
+  border-color: #007acc;
+  background: linear-gradient(135deg, #007acc 0%, #0056b3 100%);
+}
+
+.card:hover h3 {
+  color: white;
+}
+
+.card:hover p {
+  color: #e9ecef;
+}
+
+.card h3 {
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1rem;
+  line-height: 1.5;
+}

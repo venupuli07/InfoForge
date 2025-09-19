@@ -1,0 +1,41 @@
+.dataset-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.dataset-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dataset-controls {
+  flex: 1;
+}
+
+.dataset-controls h3 {
+  margin: 0;
+  color: #333;
+}
+
+.delete-schema-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.delete-schema-btn:hover {
+  background: #c82333;
+}
