@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
-import { SAMPLE_DATA } from "./sampleData";
 import { SCHEMAS } from "./schemas";
 import { Nav } from "./components/Nav";
 import { WelcomePage } from "./components/WelcomePage";
@@ -22,13 +20,9 @@ export type Schema = {
 };
 
 export type RecordItem = { id: string; [k: string]: any };
-export type SetRecordsFunction = React.Dispatch<React.SetStateAction<{[schemaId: string]: RecordItem[]}>>;
 export const makeId = () => crypto.randomUUID();
 
-function DatasetRoute({ records, setRecords }: {
-  records: {[schemaId: string]: RecordItem[]};
-  setRecords: SetRecordsFunction;
-}) {
+function DatasetRoute() {
   const { schemaId } = useParams();
   const schema = SCHEMAS.find(s => s.id === schemaId);
   
@@ -36,36 +30,23 @@ function DatasetRoute({ records, setRecords }: {
     return <div><h1>Unknown dataset</h1></div>;
   }
   
-  return <DatasetPage schema={schema} records={records[schemaId] || []} setRecords={setRecords} />;
+  return <DatasetPage schema={schema} />;
 }
 
 
-
-function AppContent() {
-  const [records, setRecords] = useState<{[schemaId: string]: RecordItem[]}>({});
-  
-  useEffect(() => {
-    setRecords(SAMPLE_DATA);
-  }, []);
-  
-  return (
-    <div>
-      <Nav schemas={SCHEMAS} />
-      <main>
-        <Routes>
-          <Route path="/" element={<WelcomePage />} />
-          <Route path="/dataset/:schemaId" element={<DatasetRoute records={records} setRecords={setRecords} />} />
-
-        </Routes>
-      </main>
-    </div>
-  );
-}
 
 export default function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <div>
+        <Nav schemas={SCHEMAS} />
+          <main>
+            <Routes>
+              <Route path="/" element={<WelcomePage />} />
+              <Route path="/dataset/:schemaId" element={<DatasetRoute />} />
+            </Routes>
+          </main>
+      </div>
     </BrowserRouter>
   );
 }

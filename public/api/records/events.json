@@ -1,0 +1,7 @@
+[
+  { "id": "1", "ID": 1, "Name": "Sunburn Festival", "Type": "Music", "Location": "Goa", "EventDate": "2023-12-28", "Organizer": "Percept Live", "TicketPrice": 8000 },
+  { "id": "2", "ID": 2, "Name": "Kumbh Mela", "Type": "Religious", "Location": "Prayagraj", "EventDate": "2025-01-15", "Organizer": "UP Government", "TicketPrice": 0 },
+  { "id": "3", "ID": 3, "Name": "Jaipur Literature Festival", "Type": "Literature", "Location": "Jaipur", "EventDate": "2024-01-25", "Organizer": "Teamwork Arts", "TicketPrice": 2500 },
+  { "id": "4", "ID": 4, "Name": "India Art Fair", "Type": "Art", "Location": "New Delhi", "EventDate": "2024-02-09", "Organizer": "India Art Fair", "TicketPrice": 1500 },
+  { "id": "5", "ID": 5, "Name": "Hornbill Festival", "Type": "Cultural", "Location": "Nagaland", "EventDate": "2023-12-01", "Organizer": "Nagaland Tourism", "TicketPrice": 500 }
+]

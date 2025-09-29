@@ -1,11 +1,12 @@
 .crud-form {
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  width: 100%;
   background: #f9f9f9;
   padding: 1rem;
   border-radius: 8px;
   gap: 1rem;
+  box-sizing: border-box;
 }
 
 .form-row {
@@ -20,17 +21,18 @@
 
 .form-row input,
 .form-row textarea {
-  flex: 1;
+  width: 100%;
   padding: 0.5rem;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-  min-width: 0;
+  box-sizing: border-box;
 }
 
 .form-row input.error,
 .form-row textarea.error {
   border-color: #dc3545;
+  background-color: #fff5f5;
 }
 
 .error-message {
@@ -38,6 +40,17 @@
   font-size: 0.875rem;
   margin-top: 0.25rem;
   display: block;
+}
+
+.form-row input:focus, .form-row textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.form-row input.error:focus, .form-row textarea.error:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
 }
 
 .required {

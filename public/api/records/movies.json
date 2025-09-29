@@ -1,0 +1,7 @@
+[
+  { "id": "1", "ID": 1, "Title": "Baahubali 2", "Genre": "Epic", "Director": "S. S. Rajamouli", "ReleaseYear": 2017, "DurationMinutes": 167 },
+  { "id": "2", "ID": 2, "Title": "Dangal", "Genre": "Sports Drama", "Director": "Nitesh Tiwari", "ReleaseYear": 2016, "DurationMinutes": 161 },
+  { "id": "3", "ID": 3, "Title": "KGF Chapter 2", "Genre": "Action", "Director": "Prashanth Neel", "ReleaseYear": 2022, "DurationMinutes": 168 },
+  { "id": "4", "ID": 4, "Title": "RRR", "Genre": "Action Drama", "Director": "S. S. Rajamouli", "ReleaseYear": 2022, "DurationMinutes": 187 },
+  { "id": "5", "ID": 5, "Title": "3 Idiots", "Genre": "Comedy Drama", "Director": "Rajkumar Hirani", "ReleaseYear": 2009, "DurationMinutes": 170 }
+]

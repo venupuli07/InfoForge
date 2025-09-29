@@ -1,0 +1,7 @@
+[
+  { "id": "1", "ID": 1, "Brand": "Royal Enfield", "Model": "Classic 350", "Type": "Cruiser", "EngineCC": 346 },
+  { "id": "2", "ID": 2, "Brand": "Bajaj", "Model": "Pulsar 220F", "Type": "Sport", "EngineCC": 220 },
+  { "id": "3", "ID": 3, "Brand": "TVS", "Model": "Apache RTR 160", "Type": "Sport", "EngineCC": 160 },
+  { "id": "4", "ID": 4, "Brand": "Hero", "Model": "Splendor Plus", "Type": "Commuter", "EngineCC": 97 },
+  { "id": "5", "ID": 5, "Brand": "Honda", "Model": "Activa 6G", "Type": "Scooter", "EngineCC": 110 }
+]

@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
 import type { Schema, RecordItem, FieldKind } from "../App";
+import { validateField } from "../validation";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { updateFormField, setFormErrors, clearForm, selectFormWithAutoSync } from "../store/slices/recordsSlice";
 import "./CRUDForm.css";
 import "../App.css";
 
@@ -12,21 +14,9 @@ interface CRUDFormProps {
 }
 
 export function CRUDForm({ schema, onSubmit, editingRecord, onUpdate, onCancelEdit }: CRUDFormProps) {
-  const [form, setForm] = useState<Record<string, string | number>>({});
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
-
-  useEffect(() => {
-    if (editingRecord) {
-      setForm(editingRecord);
-    } else {
-      setForm({});
-    }
-  }, [editingRecord]);
-
-  useEffect(() => {
-    setForm({});
-    setErrors({});
-  }, [schema.id]);
+  const dispatch = useAppDispatch();
+  const form = useAppSelector(state => selectFormWithAutoSync(editingRecord)(state, dispatch));
+  const errors = useAppSelector(state => state.records.formErrors);
 
   const getInputType = (kind: FieldKind) => {
     switch (kind) {
@@ -37,34 +27,11 @@ export function CRUDForm({ schema, onSubmit, editingRecord, onUpdate, onCancelEd
     }
   };
 
-  const validateField = (value: any, kind: FieldKind, required?: boolean) => {
-    if (required && (!value || value.toString().trim() === "")) {
-      return "This field is required";
-    }
-    if (value && value.toString().trim() !== "") {
-      if (kind === "Integer") {
-        const num = Number(value);
-        if (!Number.isInteger(num) || num < 0) {
-          return "Must be a positive whole number";
-        }
-      }
-      if (kind === "Float") {
-        const num = Number(value);
-        if (isNaN(num) || num < 0) {
-          return "Must be a positive number";
-        }
-      }
-      if (kind === "SmallText" && value.toString().length > 100) {
-        return "Text must be 100 characters or less";
-      }
-    }
-    return "";
-  };
-
   const handleChange = (key: string, value: string, kind: FieldKind, required?: boolean) => {
-    setForm(prev => ({ ...prev, [key]: value }));
+    dispatch(updateFormField({ key, value }));
+
     const error = validateField(value, kind, required);
-    setErrors(prev => ({ ...prev, [key]: error }));
+    dispatch(setFormErrors({ ...errors, [key]: error }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -77,7 +44,7 @@ export function CRUDForm({ schema, onSubmit, editingRecord, onUpdate, onCancelEd
     });
     
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+      dispatch(setFormErrors(newErrors));
       return;
     }
 
@@ -86,13 +53,11 @@ export function CRUDForm({ schema, onSubmit, editingRecord, onUpdate, onCancelEd
     } else {
       onSubmit(form);
     }
-    setForm({});
-    setErrors({});
+    dispatch(clearForm());
   };
 
   const handleCancel = () => {
-    setForm({});
-    setErrors({});
+    dispatch(clearForm());
   };
 
   return (

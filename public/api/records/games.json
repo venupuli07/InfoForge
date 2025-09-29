@@ -1,0 +1,6 @@
+[
+  { "id": "1", "ID": 1, "Title": "Raji: An Ancient Epic", "Genre": "Action-Adventure", "Platform": "PC/Console", "Developer": "Nodding Heads Games", "Rating": 8.5 },
+  { "id": "2", "ID": 2, "Title": "Asura", "Genre": "Action", "Platform": "PC", "Developer": "Ogre Head Studio", "Rating": 7.8 },
+  { "id": "3", "ID": 3, "Title": "Mukti", "Genre": "Adventure", "Platform": "Mobile", "Developer": "Gameshastra", "Rating": 8.2 },
+  { "id": "4", "ID": 4, "Title": "Hanuman: Boy Warrior", "Genre": "Action", "Platform": "PC", "Developer": "Aurona Technologies", "Rating": 7.5 }
+]

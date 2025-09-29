@@ -3,8 +3,6 @@
   flex-direction: column;
   flex: 1;
   padding: 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
   gap: 1rem;
 }
 
@@ -38,4 +36,16 @@
 
 .delete-schema-btn:hover {
   background: #c82333;
+}
+.loading-mask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.loading-spinner {
+  font-size: 18px;
+  color: #666;
 }

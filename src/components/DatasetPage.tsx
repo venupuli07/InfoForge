@@ -1,49 +1,30 @@
-import { useState, useMemo } from "react";
-import type { Schema, RecordItem, SetRecordsFunction } from "../App";
-import { makeId } from "../App";
+import type { Schema, RecordItem } from "../App";
 import { CRUDForm } from "./CRUDForm";
 import { DataTable } from "./DataTable";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setEditingId, addRecord, updateRecord, deleteRecord, selectRecordsWithAutoLoad, selectRecordsLoading } from "../store/slices/recordsSlice";
 
 import "./DatasetPage.css";
 
-export function DatasetPage({
-  schema, 
-  records, 
-  setRecords
-}: { 
-  schema: Schema; 
-  records: RecordItem[];
-  setRecords: SetRecordsFunction;
-  onDeleteSchema?: (id: string) => void;
-}) {
-  const [editingId, setEditingId] = useState<string | null>(null);
+export function DatasetPage({ schema }: { schema: Schema }) {
+  const dispatch = useAppDispatch();
+  const records = useAppSelector(state => selectRecordsWithAutoLoad(schema.id)(state, dispatch));
+  const isLoading = useAppSelector(state => selectRecordsLoading(schema.id)(state));
+  const editingId = useAppSelector(state => state.records.editingId);
 
   const handleAddRecord = (r: Omit<RecordItem, "id">) => {
-    const existingRecords = records || [];
-    const maxId = existingRecords.length > 0 ? Math.max(...existingRecords.map(rec => rec.ID || 0)) : 0;
-    const newRecord = { ...r, id: makeId(), ID: maxId + 1 };
-    setRecords(prev => ({
-      ...prev,
-      [schema.id]: [...(prev[schema.id] || []), newRecord]
-    }));
+    dispatch(addRecord({ schemaId: schema.id, record: r }));
   };
 
   const handleUpdateRecord = (id: string, updates: Partial<RecordItem>) => {
-    setEditingId(null);
-    setRecords(prev => ({
-      ...prev,
-      [schema.id]: (prev[schema.id] || []).map((r: RecordItem) => r.id === id ? { ...r, ...updates } : r)
-    }));
+    dispatch(updateRecord({ schemaId: schema.id, id, updates }));
   };
 
   const handleDeleteRecord = (id: string) => {
-    if (confirm('Are you sure you want to delete this record?')) {
-      setRecords(prev => ({
-        ...prev,
-        [schema.id]: (prev[schema.id] || []).filter((r: RecordItem) => r.id !== id)
-      }));
-    }
+    dispatch(deleteRecord({ schemaId: schema.id, id, confirm: () => confirm('Are you sure you want to delete this record?') }));
   };
+
+  const editingRecord = editingId && records.length > 0 ? records.find((r: RecordItem) => r.id === editingId) : undefined;
 
   return (
     <div className="dataset-page">
@@ -54,19 +35,27 @@ export function DatasetPage({
         </div>
       </div>
 
-      <CRUDForm 
-        schema={schema} 
-        onSubmit={handleAddRecord} 
-        editingRecord={useMemo(() => editingId ? records.find(r => r.id === editingId) : undefined, [editingId, records])} 
-        onUpdate={handleUpdateRecord} 
-        onCancelEdit={() => setEditingId(null)}
-      />
-      <DataTable 
-        schema={schema} 
-        records={records} 
-        onDelete={handleDeleteRecord} 
-        onEdit={setEditingId} 
-      />
+      {isLoading ? (
+        <div className="loading-mask">
+          <div className="loading-spinner">Loading...</div>
+        </div>
+      ) : (
+        <>
+          <CRUDForm
+            schema={schema}
+            onSubmit={handleAddRecord}
+            editingRecord={editingRecord}
+            onUpdate={handleUpdateRecord}
+            onCancelEdit={() => dispatch(setEditingId(null))}
+          />
+          <DataTable 
+            schema={schema}
+            records={records}
+            onDelete={handleDeleteRecord}
+            onEdit={(id) => dispatch(setEditingId(id))}
+          />
+        </>
+      )}
     </div>
   );
 }
