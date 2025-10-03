@@ -2,15 +2,19 @@ import type { Schema, RecordItem } from "../App";
 import { CRUDForm } from "./CRUDForm";
 import { DataTable } from "./DataTable";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setEditingId, addRecord, updateRecord, deleteRecord, selectRecordsWithAutoLoad, selectRecordsLoading } from "../store/slices/recordsSlice";
+import { setEditingId, addRecord, updateRecord, deleteRecord, loadRecords } from "../store/slices/recordsSlice";
 
 import "./DatasetPage.css";
 
 export function DatasetPage({ schema }: { schema: Schema }) {
   const dispatch = useAppDispatch();
-  const records = useAppSelector(state => selectRecordsWithAutoLoad(schema.id)(state, dispatch));
-  const isLoading = useAppSelector(state => selectRecordsLoading(schema.id)(state));
+  const records = useAppSelector(state => state.records.records[schema.id] || []);
+  const isLoading = useAppSelector(state => state.records.loading[schema.id] || false);
   const editingId = useAppSelector(state => state.records.editingId);
+
+  if (!records.length && !isLoading) {
+    dispatch(loadRecords(schema.id));
+  }
 
   const handleAddRecord = (r: Omit<RecordItem, "id">) => {
     dispatch(addRecord({ schemaId: schema.id, record: r }));
