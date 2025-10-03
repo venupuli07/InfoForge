@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RecordItem } from '../../App';
 import { makeId } from '../../App';
 import type { RootState } from '../index';
+import { useAppSelector } from '../hooks';
 
 export const loadRecords = createAsyncThunk('records/load', async (schemaId: string) => {
   await new Promise(resolve => setTimeout(resolve, 1000));
@@ -85,29 +86,11 @@ const recordsSlice = createSlice({
 
 export const { setEditingId, setForm, updateFormField, setFormErrors, clearForm, addRecord, updateRecord, deleteRecord } = recordsSlice.actions;
 
-export const selectRecordsWithAutoLoad = (schemaId: string) => (state: RootState, dispatch: any) => {
-  const records = state.records.records[schemaId];
-  if (!records && !state.records.loading[schemaId]) {
-    dispatch(loadRecords(schemaId));
-  }
-  return records || [];
-};
+export const selectForm = (state: RootState) => state.records.form;
 
-export const selectRecordsLoading = (schemaId: string) => (state: RootState) => {
-  return state.records.loading[schemaId] || false;
-};
-
-export const selectFormWithAutoSync = (editingRecord: any) => (state: RootState, dispatch: any) => {
-  const currentForm = state.records.form;
-
-  if (editingRecord && Object.keys(currentForm).length === 0) {
-    dispatch(setForm(editingRecord));
-  }
-  else if (!editingRecord && Object.keys(currentForm).length > 0) {
-    dispatch(clearForm());
-  }
-  
-  return currentForm;
-};
+export function useSyncedForm(editingRecord: any) {
+  const form = useAppSelector(selectForm);
+  return editingRecord || form;
+}
 
 export default recordsSlice.reducer;

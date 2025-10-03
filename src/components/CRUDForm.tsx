@@ -1,7 +1,7 @@
 import type { Schema, RecordItem, FieldKind } from "../App";
 import { validateField } from "../validation";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { updateFormField, setFormErrors, clearForm, selectFormWithAutoSync } from "../store/slices/recordsSlice";
+import { updateFormField, setFormErrors, clearForm, useSyncedForm } from "../store/slices/recordsSlice";
 import "./CRUDForm.css";
 import "../App.css";
 
@@ -15,7 +15,7 @@ interface CRUDFormProps {
 
 export function CRUDForm({ schema, onSubmit, editingRecord, onUpdate, onCancelEdit }: CRUDFormProps) {
   const dispatch = useAppDispatch();
-  const form = useAppSelector(state => selectFormWithAutoSync(editingRecord)(state, dispatch));
+  const form = useSyncedForm(editingRecord);
   const errors = useAppSelector(state => state.records.formErrors);
 
   const getInputType = (kind: FieldKind) => {
